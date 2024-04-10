@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
+    stats: {
+        warnings: false,
+    },
     entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -44,18 +47,23 @@ module.exports = {
             shared: {
                 react: {
                     singleton: true,
+                    requiredVersion: "^18.2.0",
                 },
                 "react-dom": {
                     singleton: true,
+                    requiredVersion: "^18.2.0",
                 },
                 "@mui/material": {
                     singleton: true,
+                    requiredVersion: "^5.15.15",
                 },
                 "@emotion/styled": {
                     singleton: true,
+                    requiredVersion: "^11.11.5",
                 },
                 "@emotion/react": {
                     singleton: true,
+                    requiredVersion: "^11.11.4",
                 },
             },
         }),
