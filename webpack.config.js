@@ -42,7 +42,19 @@ module.exports = {
                 "./FancyButton": "./src/FancyButton",
             },
             shared: {
+                react: {
+                    singleton: true,
+                },
+                "react-dom": {
+                    singleton: true,
+                },
                 "@mui/material": {
+                    singleton: true,
+                },
+                "@emotion/styled": {
+                    singleton: true,
+                },
+                "@emotion/react": {
                     singleton: true,
                 },
             },

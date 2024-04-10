@@ -5,7 +5,7 @@ import BasicTable from "./Table";
 const FancyButton = (props: any) => {
     return (
         <>
-            <Button>Custom button</Button>
+            <BasicTable />
         </>
     );
 };
