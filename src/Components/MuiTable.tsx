@@ -20,9 +20,37 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Autocomplete from "@mui/material/Autocomplete";
+import { Grid } from "@mui/material";
+import RightSubGrid from "./RightSubGrid";
+import RightSubGrid2 from "./RightSubGrid2";
+import Fade from "@mui/material/Fade";
+
+import TablePaginationDemo from "./Pagination";
+import { useState } from "react";
+import { useEffect, useRef } from "react";
+import Slide from "@mui/material/Slide";
+
+const optionsArray = [
+    "Stocks",
+    "Suppliers",
+    "Prices",
+    "Special Prices",
+    "Linked Items",
+];
+const style = {
+    py: 0,
+    width: "100%",
+    maxWidth: 360,
+    borderRadius: 2,
+    border: "1px solid",
+    borderColor: "divider",
+    backgroundColor: "background.paper",
+};
+const optionsArray2 = [
+    "eBay Templates",
+    "Attributes / Field Characterstics",
+    "Custom Overview",
+];
 
 interface Data {
     id: number;
@@ -65,6 +93,13 @@ const rows = [
     createData(11, "Marshmallow", 318, 0, 81, 2.0),
     createData(12, "Nougat", 360, 19.0, 9, 37.0),
     createData(13, "Oreo", 437, 18.0, 63, 4.0),
+    createData(14, "Ice cream sandwich", 237, 9.0, 37, 4.3),
+    createData(15, "Jelly Bean", 375, 0.0, 94, 0.0),
+    createData(16, "KitKat", 518, 26.0, 65, 7.0),
+    createData(17, "Lollipop", 392, 0.2, 98, 0.0),
+    createData(18, "Marshmallow", 318, 0, 81, 2.0),
+    createData(19, "Nougat", 360, 19.0, 9, 37.0),
+    createData(20, "Oreo", 437, 18.0, 63, 4.0),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -122,31 +157,31 @@ const headCells: readonly HeadCell[] = [
         id: "name",
         numeric: false,
         disablePadding: true,
-        label: "Dessert (100g serving)",
+        label: "Order number",
     },
     {
         id: "calories",
         numeric: true,
         disablePadding: false,
-        label: "Calories",
+        label: "Status",
     },
     {
         id: "fat",
         numeric: true,
         disablePadding: false,
-        label: "Fat (g)",
+        label: "Channel)",
     },
     {
         id: "carbs",
         numeric: true,
         disablePadding: false,
-        label: "Carbs (g)",
+        label: "Delivery Address",
     },
     {
         id: "protein",
         numeric: true,
         disablePadding: false,
-        label: "Protein (g)",
+        label: "Created On",
     },
 ];
 
@@ -186,9 +221,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                             numSelected > 0 && numSelected < rowCount
                         }
                         checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
+                        onChange={(e) => {
+                            onSelectAllClick(e);
+                        }}
                         inputProps={{
-                            "aria-label": "select all desserts",
+                            "aria-label": "select all orders",
                         }}
                     />
                 </TableCell>
@@ -242,25 +279,6 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             }}
         >
             {numSelected > 0 ? (
-                <Typography
-                    sx={{ flex: "1 1 100%" }}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
-                    {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography
-                    sx={{ flex: "1 1 100%" }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Nutrition
-                </Typography>
-            )}
-            {numSelected > 0 ? (
                 <Tooltip title="Delete">
                     <IconButton>
                         <DeleteIcon />
@@ -276,13 +294,23 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Toolbar>
     );
 }
+
 export default function EnhancedTable() {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(true);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [dense, setDense] = React.useState(false);
+    const [rowsPerPage, setRowsPerPage] = React.useState(35);
+    const [showRightPanel, setShowRightPanel] = useState(false);
+    const containerRef = useRef();
+    useEffect(() => {
+        if (selected.length == 0) {
+            setShowRightPanel(false);
+        } else {
+            setShowRightPanel(true);
+        }
+    }, [selected]);
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -353,155 +381,13 @@ export default function EnhancedTable() {
         [order, orderBy, page, rowsPerPage]
     );
 
-    const top100Films = [
-        { title: "The Shawshank Redemption", year: 1994 },
-        { title: "The Godfather", year: 1972 },
-        { title: "The Godfather: Part II", year: 1974 },
-        { title: "The Dark Knight", year: 2008 },
-        { title: "12 Angry Men", year: 1957 },
-        { title: "Schindler's List", year: 1993 },
-        { title: "Pulp Fiction", year: 1994 },
-        {
-            title: "The Lord of the Rings: The Return of the King",
-            year: 2003,
-        },
-        { title: "The Good, the Bad and the Ugly", year: 1966 },
-        { title: "Fight Club", year: 1999 },
-        {
-            title: "The Lord of the Rings: The Fellowship of the Ring",
-            year: 2001,
-        },
-        {
-            title: "Star Wars: Episode V - The Empire Strikes Back",
-            year: 1980,
-        },
-        { title: "Forrest Gump", year: 1994 },
-        { title: "Inception", year: 2010 },
-        {
-            title: "The Lord of the Rings: The Two Towers",
-            year: 2002,
-        },
-        { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-        { title: "Goodfellas", year: 1990 },
-        { title: "The Matrix", year: 1999 },
-        { title: "Seven Samurai", year: 1954 },
-        {
-            title: "Star Wars: Episode IV - A New Hope",
-            year: 1977,
-        },
-        { title: "City of God", year: 2002 },
-        { title: "Se7en", year: 1995 },
-        { title: "The Silence of the Lambs", year: 1991 },
-        { title: "It's a Wonderful Life", year: 1946 },
-        { title: "Life Is Beautiful", year: 1997 },
-        { title: "The Usual Suspects", year: 1995 },
-        { title: "Léon: The Professional", year: 1994 },
-        { title: "Spirited Away", year: 2001 },
-        { title: "Saving Private Ryan", year: 1998 },
-        { title: "Once Upon a Time in the West", year: 1968 },
-        { title: "American History X", year: 1998 },
-        { title: "Interstellar", year: 2014 },
-        { title: "Casablanca", year: 1942 },
-        { title: "City Lights", year: 1931 },
-        { title: "Psycho", year: 1960 },
-        { title: "The Green Mile", year: 1999 },
-        { title: "The Intouchables", year: 2011 },
-        { title: "Modern Times", year: 1936 },
-        { title: "Raiders of the Lost Ark", year: 1981 },
-        { title: "Rear Window", year: 1954 },
-        { title: "The Pianist", year: 2002 },
-        { title: "The Departed", year: 2006 },
-        { title: "Terminator 2: Judgment Day", year: 1991 },
-        { title: "Back to the Future", year: 1985 },
-        { title: "Whiplash", year: 2014 },
-        { title: "Gladiator", year: 2000 },
-        { title: "Memento", year: 2000 },
-        { title: "The Prestige", year: 2006 },
-        { title: "The Lion King", year: 1994 },
-        { title: "Apocalypse Now", year: 1979 },
-        { title: "Alien", year: 1979 },
-        { title: "Sunset Boulevard", year: 1950 },
-        {
-            title: "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-            year: 1964,
-        },
-        { title: "The Great Dictator", year: 1940 },
-        { title: "Cinema Paradiso", year: 1988 },
-        { title: "The Lives of Others", year: 2006 },
-        { title: "Grave of the Fireflies", year: 1988 },
-        { title: "Paths of Glory", year: 1957 },
-        { title: "Django Unchained", year: 2012 },
-        { title: "The Shining", year: 1980 },
-        { title: "WALL·E", year: 2008 },
-        { title: "American Beauty", year: 1999 },
-        { title: "The Dark Knight Rises", year: 2012 },
-        { title: "Princess Mononoke", year: 1997 },
-        { title: "Aliens", year: 1986 },
-        { title: "Oldboy", year: 2003 },
-        { title: "Once Upon a Time in America", year: 1984 },
-        { title: "Witness for the Prosecution", year: 1957 },
-        { title: "Das Boot", year: 1981 },
-        { title: "Citizen Kane", year: 1941 },
-        { title: "North by Northwest", year: 1959 },
-        { title: "Vertigo", year: 1958 },
-        {
-            title: "Star Wars: Episode VI - Return of the Jedi",
-            year: 1983,
-        },
-        { title: "Reservoir Dogs", year: 1992 },
-        { title: "Braveheart", year: 1995 },
-        { title: "M", year: 1931 },
-        { title: "Requiem for a Dream", year: 2000 },
-        { title: "Amélie", year: 2001 },
-        { title: "A Clockwork Orange", year: 1971 },
-        { title: "Like Stars on Earth", year: 2007 },
-        { title: "Taxi Driver", year: 1976 },
-        { title: "Lawrence of Arabia", year: 1962 },
-        { title: "Double Indemnity", year: 1944 },
-        {
-            title: "Eternal Sunshine of the Spotless Mind",
-            year: 2004,
-        },
-        { title: "Amadeus", year: 1984 },
-        { title: "To Kill a Mockingbird", year: 1962 },
-        { title: "Toy Story 3", year: 2010 },
-        { title: "Logan", year: 2017 },
-        { title: "Full Metal Jacket", year: 1987 },
-        { title: "Dangal", year: 2016 },
-        { title: "The Sting", year: 1973 },
-        { title: "2001: A Space Odyssey", year: 1968 },
-        { title: "Singin' in the Rain", year: 1952 },
-        { title: "Toy Story", year: 1995 },
-        { title: "Bicycle Thieves", year: 1948 },
-        { title: "The Kid", year: 1921 },
-        { title: "Inglourious Basterds", year: 2009 },
-        { title: "Snatch", year: 2000 },
-        { title: "3 Idiots", year: 2009 },
-        { title: "Monty Python and the Holy Grail", year: 1975 },
-    ];
-
     return (
-        <Box sx={{ width: "100%" }}>
-            <Autocomplete
-                id="free-solo-demo"
-                freeSolo
-                options={top100Films.map((option) => option.title)}
-                renderInput={(params) => (
-                    <TextField {...params} label="freeSolo" />
-                )}
-                sx={{
-                    border: 0,
-                    mb: 8,
-                    height: 20,
-                }}
-            />
-            <Paper sx={{ width: "100%", mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
-                <TableContainer>
+        <>
+            <Grid container item xs order={{ xs: 2, md: 1 }}>
+                <TableContainer style={{ overflow: "auto" }}>
                     <Table
-                        sx={{ minWidth: 750 }}
                         aria-labelledby="tableTitle"
-                        size={dense ? "small" : "medium"}
+                        size={dense ? "small" : "small"}
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -519,15 +405,20 @@ export default function EnhancedTable() {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) =>
-                                            handleClick(event, row.id)
-                                        }
+                                        onClick={(event) => {
+                                            handleClick(event, row.id);
+                                        }}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.id}
                                         selected={isItemSelected}
-                                        sx={{ cursor: "pointer" }}
+                                        sx={{ cursor: "pointer", height: "3" }}
+                                        style={
+                                            index % 2
+                                                ? { background: "#fdffe0" }
+                                                : { background: "white" }
+                                        }
                                     >
                                         <TableCell padding="checkbox">
                                             <Checkbox
@@ -564,7 +455,7 @@ export default function EnhancedTable() {
                             {emptyRows > 0 && (
                                 <TableRow
                                     style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
+                                        height: (dense ? 25 : 25) * emptyRows,
                                     }}
                                 >
                                     <TableCell colSpan={6} />
@@ -573,6 +464,16 @@ export default function EnhancedTable() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </Grid>
+
+            <Fade in={showRightPanel} mountOnEnter unmountOnExit timeout={200}>
+                <Grid item container xs={12} md={5} order={{ xs: 1, md: 2 }}>
+                    <RightSubGrid panel={1} options={optionsArray} />
+                    <RightSubGrid2 panel={2} options={optionsArray2} />
+                </Grid>
+            </Fade>
+
+            <Grid item container order={{ xs: 3 }} justifyContent="flex-end">
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
@@ -582,13 +483,7 @@ export default function EnhancedTable() {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-            </Paper>
-            <FormControlLabel
-                control={
-                    <Switch checked={dense} onChange={handleChangeDense} />
-                }
-                label="Dense padding"
-            />
-        </Box>
+            </Grid>
+        </>
     );
 }

@@ -43,6 +43,7 @@ module.exports = {
             filename: "dist/remoteEntry.js",
             exposes: {
                 "./FancyButton": "./src/FancyButton",
+                "./ItemTable": "./src/ItemTable",
             },
             shared: {
                 react: {
