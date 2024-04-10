@@ -18,7 +18,7 @@ const FancyButton = () => {
     console.log(theme.status.danger);
     return (
         <>
-            <Button variant="contained">Button</Button>
+            <Button>Button</Button>
         </>
     );
 };
