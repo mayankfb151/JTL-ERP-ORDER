@@ -66,6 +66,11 @@ module.exports = {
                     singleton: true,
                     requiredVersion: "^11.11.4",
                 },
+                /*"react-router-dom": {
+                    singleton: true,
+                    version: "6.22.3",
+                    eager: true,
+                },*/
             },
         }),
     ],

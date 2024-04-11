@@ -4,7 +4,12 @@ import RightSubGrid from "./RightSubGrid";
 import Table from "./Table";
 import TablePaginationDemo from "./Pagination";
 import DataTable from "./MuiTable";
-export default function MainSection() {
+import EnhancedTable from "./SimpleTable";
+export default function MainSection(props: any) {
+    const tableData = {
+        // make sure all required component's inputs/Props keys&types match
+        orderData: props.orderData,
+    };
     const optionsArray = [
         "Stocks",
         "Suppliers",
@@ -33,7 +38,7 @@ export default function MainSection() {
             </Grid>
             <Grid item container xs columnGap={"3"}>
                 <Grid item container md={12} xs={12}>
-                    <DataTable />
+                    <EnhancedTable {...tableData} />
                 </Grid>
             </Grid>
         </Grid>

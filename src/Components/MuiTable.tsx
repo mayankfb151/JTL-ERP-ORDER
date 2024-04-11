@@ -29,6 +29,7 @@ import TablePaginationDemo from "./Pagination";
 import { useState } from "react";
 import { useEffect, useRef } from "react";
 import Slide from "@mui/material/Slide";
+import { string } from "prop-types";
 
 const optionsArray = [
     "Stocks",
@@ -195,6 +196,7 @@ interface EnhancedTableProps {
     order: Order;
     orderBy: string;
     rowCount: number;
+    columns: string[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -205,6 +207,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         numSelected,
         rowCount,
         onRequestSort,
+        columns,
     } = props;
     const createSortHandler =
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
@@ -229,27 +232,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? "right" : "left"}
-                        padding={headCell.disablePadding ? "none" : "normal"}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === "desc"
-                                        ? "sorted descending"
-                                        : "sorted ascending"}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
+                {columns.map((headCell, index) => (
+                    <TableCell key={index}>
+                        <TableSortLabel>{headCell}</TableSortLabel>
                     </TableCell>
                 ))}
             </TableRow>
@@ -295,7 +280,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props: any) {
+    const tableCol: string[] = [];
+    const [columns, setColumns] = useState(tableCol);
+
+    useEffect(() => {
+        setColumns(Object.keys(props.orderData.data[0]));
+    }, []);
+
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("calories");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -396,62 +388,55 @@ export default function EnhancedTable() {
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
+                            columns={columns}
                         />
                         <TableBody>
-                            {visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(row.id);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                            {props.orderData.data.map(
+                                (row: any, index: any) => {
+                                    const isItemSelected = isSelected(row.id);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                return (
-                                    <TableRow
-                                        hover
-                                        onClick={(event) => {
-                                            handleClick(event, row.id);
-                                        }}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        key={row.id}
-                                        selected={isItemSelected}
-                                        sx={{ cursor: "pointer", height: "3" }}
-                                        style={
-                                            index % 2
-                                                ? { background: "#fdffe0" }
-                                                : { background: "white" }
-                                        }
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    "aria-labelledby": labelId,
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
+                                    return (
+                                        <TableRow
+                                            key={index}
+                                            hover
+                                            role="checkbox"
+                                            selected={isItemSelected}
+                                            sx={{
+                                                cursor: "pointer",
+                                                height: "3",
+                                            }}
+                                            style={
+                                                index % 2
+                                                    ? { background: "#fdffe0" }
+                                                    : { background: "white" }
+                                            }
                                         >
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {row.calories}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {row.fat}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {row.carbs}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {row.protein}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
+                                            <TableCell padding="checkbox">
+                                                <Checkbox
+                                                    key={index}
+                                                    color="primary"
+                                                    checked={isItemSelected}
+                                                    inputProps={{
+                                                        "aria-labelledby":
+                                                            labelId,
+                                                    }}
+                                                />
+                                            </TableCell>
+
+                                            {columns.map(function (
+                                                column: any
+                                            ) {
+                                                return (
+                                                    <TableCell align="right">
+                                                        {row[column]}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                }
+                            )}
                             {emptyRows > 0 && (
                                 <TableRow
                                     style={{
