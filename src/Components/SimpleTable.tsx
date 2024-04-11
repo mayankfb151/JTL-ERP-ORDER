@@ -13,18 +13,14 @@ export default function DenseTable(props: any) {
     const rows = props.orderData;
     return (
         <TableContainer component={Paper}>
-            <Table
-                sx={{ minWidth: 650 }}
-                size="small"
-                aria-label="a dense table"
-            >
+            <Table size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
-                        <TableCell padding="checkbox">
+                        <TableCell>
                             <Checkbox color="primary" />
                         </TableCell>
                         {Object.keys(rows[0]).map((item) => {
-                            return <TableCell>{rows[0][item]}</TableCell>;
+                            return <TableCell>{item}</TableCell>;
                         })}
                     </TableRow>
                 </TableHead>
@@ -38,7 +34,7 @@ export default function DenseTable(props: any) {
                                 },
                             }}
                         >
-                            <TableCell padding="checkbox">
+                            <TableCell>
                                 <Link to={`/orders/${row.id}`}>
                                     <Checkbox color="primary" />
                                 </Link>

@@ -1,10 +1,5 @@
-import {
-    createBrowserRouter,
-    createMemoryRouter,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App, { loader as rootLoader } from "./App";
-import ItemTable from "./ItemTable";
 import OrderDetail, { loader as orderLoader } from "./OrderDetail";
 
 const router = createBrowserRouter([
