@@ -15,16 +15,29 @@ const FancyButton = (props: any) => {
             element: <App />,
             loader: async () => {
                 const searchString = store.getState().counter.searchString;
+                const searchCategory = store.getState().counter.searchCategory;
                 let response = await axios.get("http://localhost:5000/orders");
                 let data = response.data.filter((row: any) => {
-                    return row.name.includes(searchString);
+                    return row[
+                        searchCategory ? searchCategory : "name"
+                    ].includes(searchString);
                 });
                 const options: any = [];
-                data.forEach((element: any) => {
-                    options.push({ label: element.name });
-                });
-                dispatch(setSearchOptions(options));
-                return data;
+                if (data) {
+                    data.forEach((element: any) => {
+                        for (let key in element) {
+                            if (key == searchCategory) {
+                                options.push({
+                                    label: element[`${key}`],
+                                });
+                            }
+                        }
+                    });
+
+                    dispatch(setSearchOptions(options));
+                }
+
+                return data ? data : [];
             },
             errorElement: <h1>404 not found</h1>,
             children: [

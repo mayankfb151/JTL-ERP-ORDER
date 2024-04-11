@@ -3,25 +3,38 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { setSearch } from "../../app/features/counter/counterSlice";
+import MenuIntroduction from "./menu";
+import { Grid, InputAdornment } from "@mui/material";
 export default function ComboBox() {
     const dispatch = useAppDispatch();
     return (
-        <Autocomplete
-            size="small"
-            disablePortal
-            id="combo-box-demo"
-            options={useAppSelector((state) => state.counter.searchOptions)}
-            sx={{ width: "100%" }}
-            renderInput={(params) => (
-                <TextField
-                    onChange={(e) => {
-                        dispatch(setSearch(e.target.value));
-                    }}
-                    {...params}
-                    label="Search orders..."
+        <Grid container direction={"row"} gap={2}>
+            <Grid item flex={1}>
+                <Autocomplete
+                    size="small"
+                    disablePortal
+                    id="combo-box-demo"
+                    options={useAppSelector((state) =>
+                        state.counter.searchOptions.slice(0, 5)
+                    )}
+                    sx={{ width: "100%" }}
+                    renderInput={(params) => (
+                        <TextField
+                            onChange={(e) => {
+                                dispatch(setSearch(e.target.value));
+                            }}
+                            {...params}
+                            label={`Search ${useAppSelector(
+                                (state) => state.counter.searchCategory
+                            )}`}
+                        />
+                    )}
                 />
-            )}
-        />
+            </Grid>
+            <Grid item>
+                <MenuIntroduction />
+            </Grid>
+        </Grid>
     );
 }
 

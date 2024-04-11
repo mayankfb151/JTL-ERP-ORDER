@@ -7,6 +7,7 @@ interface CounterState {
   value: number
   searchString: string,
   searchOptions: any,
+  searchCategory: any
 } 
 
 // Define the initial state using that type
@@ -14,6 +15,7 @@ const initialState: CounterState = {
   value: 0,
   searchString: '',
   searchOptions: [],
+  searchCategory: "name"
 }
 
 export const counterSlice = createSlice({
@@ -26,8 +28,10 @@ export const counterSlice = createSlice({
     },
     setSearchOptions: (state,  action) => {
       state.searchOptions = action.payload;
-  },
-
+    },
+    setSearchCategory: (state,  action) => {
+      state.searchCategory = action.payload;
+    },
     increment: (state) => {
       state.value += 1
     },
@@ -42,7 +46,7 @@ export const counterSlice = createSlice({
   },
 })
 
-export const { increment, decrement, incrementByAmount, setSearch, setSearchOptions  } = counterSlice.actions
+export const { increment, decrement, incrementByAmount, setSearch, setSearchOptions, setSearchCategory  } = counterSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.value
