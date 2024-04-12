@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -15,16 +16,21 @@ export default function DenseTable(props: any) {
     const rows = props.orderData;
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: "#FFA500",
+            backgroundColor: "#1160b7",
             color: theme.palette.common.white,
+            fontsize: 11,
         },
         [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
+            fontsize: 11,
+            innerWidth: "20px",
         },
     }));
     const StyledTableRow = styled(TableRow)(({ theme }) => ({
         "&:nth-of-type(odd)": {
             backgroundColor: theme.palette.action.hover,
+        },
+        "&:nth-of-type(even)": {
+            backgroundColor: "whitesmoke",
         },
         // hide last border
         "&:last-child td, &:last-child th": {
@@ -34,13 +40,17 @@ export default function DenseTable(props: any) {
     return (
         <TableContainer component={Paper}>
             {rows.length > 0 && (
-                <Table size="small" aria-label="a dense table">
+                <Table
+                    size="small"
+                    sx={{ width: "100%" }}
+                    aria-label="a dense table"
+                >
                     <TableHead>
                         <TableRow>
-                            {/*<Checkbox
-                                                color="primary"
-                                                style={{ zIndex: -1 }}
-                                />*/}
+                            <StyledTableCell>
+                                <Checkbox color="primary" />
+                            </StyledTableCell>
+
                             {Object.keys(rows[0]).map((item, index) => {
                                 return (
                                     <StyledTableCell key={index}>
@@ -61,16 +71,17 @@ export default function DenseTable(props: any) {
                                         },
                                     }}
                                 >
-                                    {/*<Link to={`/orders/${row.id}`}>
-                                        <Checkbox
-                                                color="primary"
-                                                style={{ zIndex: -1 }}
-                                />
-                                    </Link>*/}
+                                    <StyledTableCell key={index}>
+                                        <Link to={`/orders/${row.id}`}>
+                                            <Checkbox color="primary" />
+                                        </Link>
+                                    </StyledTableCell>
                                     {Object.keys(rows[0]).map((item, index) => {
                                         return (
                                             <StyledTableCell key={index}>
-                                                {row[item]}
+                                                <Typography fontSize={"0.8rem"}>
+                                                    {row[item]}
+                                                </Typography>
                                             </StyledTableCell>
                                         );
                                     })}

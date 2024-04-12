@@ -1,6 +1,15 @@
-import * as React from "react";
-import { alpha } from "@mui/material/styles";
+import DeleteIcon from "@mui/icons-material/Delete";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import Fade from "@mui/material/Fade";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Slide from "@mui/material/Slide";
+import { alpha } from "@mui/material/styles";
+import Switch from "@mui/material/Switch";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,26 +19,17 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import Typography from "@mui/material/Typography";
 import { visuallyHidden } from "@mui/utils";
-import { Grid } from "@mui/material";
-import RightSubGrid from "./RightSubGrid";
-import RightSubGrid2 from "./RightSubGrid2";
-import Fade from "@mui/material/Fade";
-
-import TablePaginationDemo from "./Pagination";
+import { string } from "prop-types";
+import * as React from "react";
 import { useState } from "react";
 import { useEffect, useRef } from "react";
-import Slide from "@mui/material/Slide";
-import { string } from "prop-types";
+
+import TablePaginationDemo from "./Pagination";
+import RightSubGrid from "./RightSubGrid";
+import RightSubGrid2 from "./RightSubGrid2";
 
 const optionsArray = [
     "Stocks",
@@ -40,7 +40,7 @@ const optionsArray = [
 ];
 const style = {
     py: 0,
-    width: "100%",
+
     maxWidth: 360,
     borderRadius: 2,
     border: "1px solid",

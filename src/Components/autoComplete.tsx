@@ -1,3 +1,4 @@
+import { Search } from "@mui/icons-material";
 import { Grid, InputAdornment } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -10,7 +11,7 @@ import MenuIntroduction from "./menu";
 export default function ComboBox() {
     const dispatch = useAppDispatch();
     return (
-        <Grid container direction={"row"} gap={2}>
+        <Grid container item gap={2} flex={1} justifyContent={"space-between"}>
             <Grid item flex={1} sx={{ position: "sticky", top: "100px" }}>
                 <Autocomplete
                     size="small"
@@ -23,7 +24,6 @@ export default function ComboBox() {
                     onChange={function (event, value: any) {
                         dispatch(setSearch(value?.label ? value?.label : ""));
                     }}
-                    sx={{ width: "100%" }}
                     renderInput={(params) => (
                         <TextField
                             onChange={(e) => {
@@ -33,6 +33,13 @@ export default function ComboBox() {
                             label={`Search ${useAppSelector(
                                 (state) => state.counter.searchCategory
                             )}`}
+                            InputProps={{
+                                startAdornment: (
+                                    <>
+                                        <Search />
+                                    </>
+                                ),
+                            }}
                         />
                     )}
                 />

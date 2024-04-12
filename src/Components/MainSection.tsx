@@ -1,10 +1,12 @@
 import { Divider, Grid } from "@mui/material";
 
-import RightSubGrid from "./RightSubGrid";
-import Table from "./Table";
-import TablePaginationDemo from "./Pagination";
 import DataTable from "./MuiTable";
+import TablePaginationDemo from "./Pagination";
+import RightSubGrid from "./RightSubGrid";
 import EnhancedTable from "./SimpleTable";
+import Table from "./Table";
+import BasicTable2 from "./TableX";
+
 export default function MainSection(props: any) {
     const tableData = {
         // make sure all required component's inputs/Props keys&types match
@@ -32,14 +34,20 @@ export default function MainSection(props: any) {
         "Custom Overview",
     ];
     return (
-        <Grid item container direction="column" xs columnGap={2}>
-            <Grid item container xs>
-                <Divider sx={{ marginBottom: "0.1rem" }} />
+        <Grid item container flex={1}>
+            <Grid item xs={12}>
+                <Divider />
             </Grid>
-            <Grid item container xs columnGap={"3"}>
-                <Grid item container md={12} xs={12}>
-                    <EnhancedTable {...tableData} />
-                </Grid>
+
+            <Grid
+                item
+                container
+                xs={12}
+                display={"flex"}
+                justifyContent={"center"}
+                style={{ overflow: "auto", width: "200px" }}
+            >
+                <EnhancedTable {...tableData} />
             </Grid>
         </Grid>
     );

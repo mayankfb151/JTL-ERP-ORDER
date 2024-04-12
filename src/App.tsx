@@ -1,13 +1,19 @@
-import BasicGrid from "./layout/Body";
+import { AlternateEmail, Person, Settings } from "@mui/icons-material";
+import { Alert, Grid } from "@mui/material";
 import axios from "axios";
-import { Outlet, useLoaderData } from "react-router-dom";
-import MainSection from "./Components/MainSection";
-import ComboBox from "./Components/autoComplete";
-import { Grid } from "@mui/material";
-import { useAppSelector } from "../app/hooks";
 import React from "react";
+import { Outlet, useLoaderData } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
+import { useAppSelector } from "../app/hooks";
 import { store } from "../app/store";
+import ComboBox from "./Components/autoComplete";
+import CustomSeparator from "./Components/breadcrumbs";
+import MainSection from "./Components/MainSection";
+import BasicTable2 from "./Components/TableX";
+import ScrollableTabsButtonForce from "./Components/tabs";
+import ColorTabs from "./Components/tabs";
+import BasicGrid from "./layout/Body";
 
 export async function Loader() {
     const searchString = store.getState().counter.searchString;
@@ -38,9 +44,39 @@ export default function App() {
         orderData: data,
     };
     return (
-        <Grid container rowGap={6}>
-            <ComboBox />
-            <MainSection {...tableData} />
+        <Grid container item direction={"row"} gap={1} mt={1}>
+            <Grid
+                item
+                display={"flex"}
+                xs={12}
+                direction={"row"}
+                alignItems={"center"}
+            >
+                <Grid xs={10} container gap={2}>
+                    <ComboBox />
+                </Grid>
+                <Grid
+                    item
+                    xs={2}
+                    container
+                    gap={2}
+                    display={"flex"}
+                    justifyContent={"center"}
+                >
+                    <Settings />
+                    <AlternateEmail />
+                    <Person />
+                </Grid>
+            </Grid>
+            <Grid item xs={12}>
+                <CustomSeparator />
+            </Grid>
+            <Grid container item xs={12}>
+                <ColorTabs />
+            </Grid>
+            <Grid item xs={12}>
+                <MainSection {...tableData} />
+            </Grid>
         </Grid>
     );
 }

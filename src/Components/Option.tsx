@@ -22,7 +22,6 @@ export default function DividedOptions() {
                         sx={{
                             backgroundColor: "whitesmoke",
                             padding: 1,
-                            width: "auto",
                             flexGrow: 1,
                             fontSize: "0.8rem",
                         }}
