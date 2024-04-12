@@ -1,15 +1,15 @@
-import * as React from "react";
+import Checkbox from "@mui/material/Checkbox";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
+import { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
+import * as React from "react";
 import { Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import { tableCellClasses } from "@mui/material/TableCell";
 
 export default function DenseTable(props: any) {
     const rows = props.orderData;
@@ -37,9 +37,10 @@ export default function DenseTable(props: any) {
                 <Table size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>
-                                <Checkbox color="primary" />
-                            </StyledTableCell>
+                            {/*<Checkbox
+                                                color="primary"
+                                                style={{ zIndex: -1 }}
+                                />*/}
                             {Object.keys(rows[0]).map((item, index) => {
                                 return (
                                     <StyledTableCell key={index}>
@@ -60,11 +61,12 @@ export default function DenseTable(props: any) {
                                         },
                                     }}
                                 >
-                                    <StyledTableCell>
-                                        <Link to={`/orders/${row.id}`}>
-                                            <Checkbox color="primary" />
-                                        </Link>
-                                    </StyledTableCell>
+                                    {/*<Link to={`/orders/${row.id}`}>
+                                        <Checkbox
+                                                color="primary"
+                                                style={{ zIndex: -1 }}
+                                />
+                                    </Link>*/}
                                     {Object.keys(rows[0]).map((item, index) => {
                                         return (
                                             <StyledTableCell key={index}>

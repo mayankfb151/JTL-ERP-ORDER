@@ -1,13 +1,16 @@
-import * as React from "react";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu, MenuListboxSlotProps } from "@mui/base/Menu";
 import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
-import { styled } from "@mui/system";
 import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
-import { useAppDispatch } from "../../app/hooks";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { Grid } from "@mui/material";
+import { styled } from "@mui/system";
+import * as React from "react";
+
 import { setSearchCategory } from "../../app/features/counter/counterSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 export default function MenuIntroduction() {
     const dispatch = useAppDispatch();
@@ -18,11 +21,17 @@ export default function MenuIntroduction() {
         };
     };
 
+    const cat = useAppSelector((state) => state.counter.searchCategory);
+
     return (
         <Dropdown>
-            <MenuButton>Select column</MenuButton>
+            <MenuButton>
+                <Grid container direction={"row"} alignItems={"center"}>
+                    {cat} <ArrowDropDownIcon />
+                </Grid>
+            </MenuButton>
             <Menu slots={{ listbox: AnimatedListbox }}>
-                <MenuItem onClick={createHandleMenuClick("Name")}>
+                <MenuItem onClick={createHandleMenuClick("name")}>
                     Name
                 </MenuItem>
                 <MenuItem onClick={createHandleMenuClick("email")}>

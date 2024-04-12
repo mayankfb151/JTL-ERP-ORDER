@@ -1,22 +1,28 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { setSearch } from "../../app/features/counter/counterSlice";
-import MenuIntroduction from "./menu";
 import { Grid, InputAdornment } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import * as React from "react";
+
+import { setSearch } from "../../app/features/counter/counterSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import MenuIntroduction from "./menu";
+
 export default function ComboBox() {
     const dispatch = useAppDispatch();
     return (
         <Grid container direction={"row"} gap={2}>
-            <Grid item flex={1}>
+            <Grid item flex={1} sx={{ position: "sticky", top: "100px" }}>
                 <Autocomplete
                     size="small"
                     disablePortal
                     id="combo-box-demo"
+                    style={{ zIndex: 9999 }}
                     options={useAppSelector((state) =>
                         state.counter.searchOptions.slice(0, 5)
                     )}
+                    onChange={function (event, value: any) {
+                        dispatch(setSearch(value?.label ? value?.label : ""));
+                    }}
                     sx={{ width: "100%" }}
                     renderInput={(params) => (
                         <TextField
