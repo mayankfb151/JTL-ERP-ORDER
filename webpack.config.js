@@ -8,9 +8,13 @@ module.exports = {
     },
     entry: "./src/index.tsx",
     output: {
-        path: path.resolve(__dirname, "dist"),
         filename: "bundle.js",
+        // Specify the public path where the bundle.js file should be served from
+        publicPath: "/",
+        // Specify the output directory
+        path: path.resolve(__dirname, "dist"),
     },
+
     resolve: {
         extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
     },
@@ -44,6 +48,7 @@ module.exports = {
             exposes: {
                 "./FancyButton": "./src/FancyButton",
                 "./ItemTable": "./src/ItemTable",
+                "./App1Index": "./src/bootstrap",
             },
             shared: {
                 react: {
