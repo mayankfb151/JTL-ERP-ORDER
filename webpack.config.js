@@ -39,8 +39,8 @@ module.exports = {
             template: path.resolve(__dirname, "src", "index.html"),
         }),
         new ModuleFederationPlugin({
-            name: "OrdersMicroApp",
-            filename: "dist/remoteEntry.js",
+            name: "Orders",
+            filename: "remoteEntry.js",
             exposes: {
                 "./FancyButton": "./src/FancyButton",
                 "./ItemTable": "./src/ItemTable",

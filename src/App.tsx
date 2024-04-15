@@ -44,7 +44,7 @@ export default function App() {
         orderData: data,
     };
     return (
-        <Grid container item direction={"row"} gap={1} mt={1}>
+        <Grid container item direction={"row"} gap={1} mt={1} p={4}>
             <Grid
                 item
                 display={"flex"}
